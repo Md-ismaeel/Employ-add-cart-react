@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from "../Context/Context"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const Team = () => {
 
-    const { team, setTeam, btnDisabled, setBtnDisabled } = useContext(UserContext);
+    const { team, setTeam } = useContext(UserContext);
     const [average, setAverage] = useState(0);
 
 
@@ -12,17 +15,8 @@ export const Team = () => {
         let newData = team.filter((e) => (item.id !== e.id))
 
         let sorted = newData.sort((a, b) => (a.age - b.age))
-
-        let temp = sorted.map((e) => {
-            if (e.id === item.id) {
-                console.log(e);
-                e.isDisabled = false;
-                return e;
-            }
-            return e;
-        })
-        setTeam(temp)
-        console.log(temp);
+        setTeam(sorted)
+        toast.warn('Employee removed successfully!');
     }
 
     useEffect(() => {
@@ -45,7 +39,7 @@ export const Team = () => {
 
         <div className='mediaCls w-2/6 min-h-20 bg-gray-100 border'>
             <div className='w-full'>
-                <h1 className='text-center text-2xl font-semibold mt-2 mb-2'>Team</h1>
+                <h1 className='text-center text-2xl font-semibold mt-2 mb-2 border py-2'>Team</h1>
             </div>
             <div className='scroll-bar h-80 flex flex-col gap-2'>
                 {team.length > 0 ? team.map((item) => (
@@ -55,16 +49,13 @@ export const Team = () => {
 
                         <p className='w-1/4'>{item.age}</p>
 
-                        <button className='w-1/3 bg-slate-700 text-yellow-50'
-                            onClick={() => remove(item)}
-                            disabled={item.hasOwnProperty('isDisabled')}
-                        >{btnDisabled ? 'Added' : 'remove'}</button>
+                        <button className={`w-1/3 bg-slate-700 text-white font-semibold py-1 active:bg-slate-900 rounded-sm`} onClick={() => remove(item)}>Remove</button>
 
                     </li>
                 ))
-                    : <p className='text-center text-xl flex justify-center items-center mt-10 text-teal-500'>Employ Not Added!!</p>}
+                    : <p className='text-center text-xl flex justify-center items-center mt-10 text-teal-500'>Employ Not Added Yet!!</p>}
             </div>
-            <div className='w-full flex justify-center items-center py-2 px-4 gap-5 text-xl bg-slate-500 text-white '>
+            <div className='w-full flex justify-center items-center py-2 px-4 gap-5 text-xl bg-slate-600 text-white '>
                 <h1 className='text-center'>Average Age :</h1>
                 <span className='text-center'>{average}</span>
             </div>

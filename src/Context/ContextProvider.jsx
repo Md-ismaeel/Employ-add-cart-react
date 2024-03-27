@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { UserContext } from './Context'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const ContextProvider = (props) => {
 
@@ -57,10 +59,22 @@ export const ContextProvider = (props) => {
         ]);
 
     const [team, setTeam] = useState([]);
-    const [btnDisabled, setBtnDisabled] = useState(false)
     return (
-        <UserContext.Provider value={{ employ, setEmploy, team, setTeam, btnDisabled, setBtnDisabled }}>
+        <UserContext.Provider value={{ employ, setEmploy, team, setTeam }}>
             {props.children}
+            <ToastContainer
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+                transition:Bounce
+            />
         </UserContext.Provider>
     )
 }
